@@ -3,24 +3,21 @@
     padding: 0px;
 }
 body{
-    background-color: rgb(180, 255, 204);
+    background-color: rgb(#ffecdf);
 }
 header{
     background-color: rgb(11, 153, 151);
     text-align: center;
     font-family: 'Times New Roman', Times, serif;
-    height: 100px;
-    line-height: 100px;
+    height: 50px;
+    line-height: 50px;
 }
+
 nav{
     background-color: rgb(11, 153, 151);
     height: 40px;
     border-right: 50px;
     margin-right: 50%;
-    border-top-left-radius: 0%;
-    border-bottom-left-radius: 0%;
-    border-top-right-radius: 0%;
-    border-bottom-right-radius: 25px
 }
 nav ul{
     display: flex;
@@ -83,9 +80,8 @@ aside form input[type="text"]{
     border: white;
 }
 .conteiner-mapa{
-    width: 100%
+    width: 50%;
     max-width: 600px;
-    height: 400px;
     margin: 20px auto;
     border:3px solid black;
     border-radius: 15px;
@@ -93,13 +89,14 @@ aside form input[type="text"]{
     overflow: hidden;
 }
 .container-mapa iframe{
-    width: 100%;
-    heigth: 100%;
+    width: 50%;
+    height: 70%;
+    margin-left: 20px;
     border: none;
 }
 footer{
     text-align:center;
-    background-color: rgb(11, 153, 151);
-    height: 23px;
+    height: 50px;
     line-height: 23px;
+    background-color: #B5D2E6;
 }
