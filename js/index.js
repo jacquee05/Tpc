@@ -7,7 +7,6 @@ const RolPermiso = require('./RolPermiso');
 const UsuarioRol = require('./UsuarioRol');
 const Reporte = require('./Reporte');
 
-// USUARIOS <-> ROLES
 User.belongsToMany(Role, {
   through: UsuarioRol,
   foreignKey: 'usuario_id',
@@ -22,7 +21,6 @@ Role.belongsToMany(User, {
   as: 'usuarios'
 });
 
-// ROLES <-> PERMISOS
 Role.belongsToMany(Permiso, {
   through: RolPermiso,
   foreignKey: 'rol_id',
@@ -37,7 +35,6 @@ Permiso.belongsToMany(Role, {
   as: 'roles'
 });
 
-// USUARIO -> REPORTES
 User.hasMany(Reporte, {
   foreignKey: 'usuario_id',
   as: 'reportes'
@@ -48,7 +45,6 @@ Reporte.belongsTo(User, {
   as: 'usuario'
 });
 
-// CATEGORIA -> REPORTES
 CategoriaReporte.hasMany(Reporte, {
   foreignKey: 'categoria_id',
   as: 'reportes'
@@ -59,7 +55,6 @@ Reporte.belongsTo(CategoriaReporte, {
   as: 'categoria'
 });
 
-// DIRECCION -> REPORTES
 Direccion.hasMany(Reporte, {
   foreignKey: 'direccion_id',
   as: 'reportes'
