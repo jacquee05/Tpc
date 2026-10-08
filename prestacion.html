@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Prestación — ECO BA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="index.html" style="text-decoration:none;"><span class="dot"></span> ECO BA</a>
+
+      <nav class="navlinks">
+        <a href="index.html#prestaciones">Prestaciones</a>
+        <a href="#">Mis solicitudes</a>
+        <a href="#">Mapa de la Ciudad</a>
+        <a href="#">Ayuda</a>
+      </nav>
+
+      <a class="cta-small" href="#">Ingresar con miBA</a>
+    </div>
+  </header>
+
+  <section class="section detail">
+    <div class="wrap">
+
+      <a class="back-link" href="index.html">← Volver a prestaciones</a>
+
+      <div class="detail-head">
+        <div class="icon icon--lg" id="detalle-icon"></div>
+        <span class="tag" id="detalle-tag">Categoría</span>
+        <h1 id="detalle-titulo">Cargando…</h1>
+        <p id="detalle-descripcion">Cargando la información de esta prestación.</p>
+      </div>
+
+      <div class="detail-info">
+        <div class="info-item">
+          <h5>Tiempo estimado</h5>
+          <p id="detalle-tiempo">—</p>
+        </div>
+        <div class="info-item">
+          <h5>Requisitos</h5>
+          <p id="detalle-requisitos">—</p>
+        </div>
+        <div class="info-item">
+          <h5>Dónde se gestiona</h5>
+          <p id="detalle-donde">—</p>
+        </div>
+      </div>
+
+      
+      <a class="btn-primary" id="detalle-cta" href="#">Iniciar esta solicitud</a>
+
+    </div>
+  </section>
+
+
+  <footer class="site-footer">
+    <div class="wrap foot-grid">
+      <div>
+        <h5>ECO BA</h5>
+        <p class="foot-about">Plataforma de la Ciudad de Buenos Aires para solicitudes, reclamos y propuestas vecinales.</p>
+      </div>
+      <div>
+        <h5>Plataforma</h5>
+        <ul>
+          <li><a href="index.html">Todas las prestaciones</a></li>
+          <li><a href="#">Mapa de reclamos</a></li>
+          <li><a href="#">Mis solicitudes</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Teléfonos útiles</h5>
+        <ul>
+          <li><a href="tel:147">147 — Atención ciudadana</a></li>
+          <li><a href="tel:911">911 — Policía</a></li>
+          <li><a href="tel:103">103 — Emergencias</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap foot-bottom">Página de referencia inspirada en el estilo de BA Colaborativa — no es el sitio oficial del GCBA.</div>
+  </footer>
+
+
+  <script src="js/prestaciones-data.js"></script>
+  <script src="js/prestacion.js"></script>
+</body>
+</html>
