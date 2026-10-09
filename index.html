@@ -198,7 +198,107 @@
     <div class="wrap foot-bottom">Página de referencia inspirada en el estilo de BA Colaborativa — no es el sitio oficial del GCBA.</div>
   </footer>
 
-  
+  <!-- ================= MODAL LOGIN / REGISTRO MIBA ================= -->
+<div id="miba-modal" class="miba-overlay" style="display: none;">
+  <div class="miba-modal-card">
+    <!-- Botón Cerrar (X) -->
+    <button type="button" class="miba-close-btn" id="miba-close-btn" aria-label="Cerrar">&times;</button>
+    
+    <div class="miba-header">
+      <div class="miba-badge">
+        <span class="miba-badge-dot"></span> miBA
+      </div>
+      <h2>Acceder a tu cuenta</h2>
+      <p>Ingresá tus datos para gestionar solicitudes y reclamos</p>
+    </div>
+
+    <div class="miba-tabs">
+      <button type="button" class="miba-tab-btn active" id="tab-register">Registrarse</button>
+      <button type="button" class="miba-tab-btn" id="tab-login">Iniciar Sesión</button>
+    </div>
+
+    <form id="miba-form" onsubmit="event.preventDefault(); alert('¡Formulario enviado correctamente!');">
+      <!-- Fila Nombre y Apellido (Solo en registro) -->
+      <div class="miba-form-row" id="row-names">
+        <div class="miba-field">
+          <label for="miba-nombre">Nombre</label>
+          <input type="text" id="miba-nombre" placeholder="Juan" required>
+        </div>
+        <div class="miba-field">
+          <label for="miba-apellido">Apellido</label>
+          <input type="text" id="miba-apellido" placeholder="Pérez" required>
+        </div>
+      </div>
+
+      <div class="miba-field">
+        <label for="miba-email">Correo Gmail / Email</label>
+        <input type="email" id="miba-email" placeholder="usuario@gmail.com" required>
+      </div>
+
+      <div class="miba-field">
+        <label for="miba-password">Contraseña</label>
+        <input type="password" id="miba-password" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="miba-submit-btn" id="miba-submit-btn">Crear Cuenta miBA</button>
+    </form>
+  </div>
+</div>
+
+<!-- Script interactivo -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Buscar el botón 'Ingresar con miBA' del header
+    const btnIngresar = document.querySelector('.cta-small');
+    const modal = document.getElementById('miba-modal');
+    const btnClose = document.getElementById('miba-close-btn');
+    
+    const tabRegister = document.getElementById('tab-register');
+    const tabLogin = document.getElementById('tab-login');
+    const rowNames = document.getElementById('row-names');
+    const submitBtn = document.getElementById('miba-submit-btn');
+
+    const inputNombre = document.getElementById('miba-nombre');
+    const inputApellido = document.getElementById('miba-apellido');
+
+    if (btnIngresar) {
+      btnIngresar.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.style.display = 'flex';
+      });
+    }
+
+    btnClose.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    tabRegister.addEventListener('click', () => {
+      tabRegister.classList.add('active');
+      tabLogin.classList.remove('active');
+      rowNames.style.display = 'grid';
+      inputNombre.required = true;
+      inputApellido.required = true;
+      submitBtn.textContent = 'Crear Cuenta miBA';
+    });
+
+    tabLogin.addEventListener('click', () => {
+      tabLogin.classList.add('active');
+      tabRegister.classList.remove('active');
+      rowNames.style.display = 'none';
+      inputNombre.required = false;
+      inputApellido.required = false;
+      submitBtn.textContent = 'Iniciar Sesión';
+    });
+  });
+</script>
+
+
   <script src="js/script.js"></script>
 </body>
 </html>
