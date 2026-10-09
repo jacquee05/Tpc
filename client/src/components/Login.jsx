@@ -12,13 +12,16 @@ export default function Login() {
       const res = await fetch('http://localhost:3000/api/usuarios/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password_hash: password })
+        body: JSON.stringify({ email, password })
       });
       const data = await res.json();
 
       if (res.ok) {
         localStorage.setItem('token', data.token);
-        localStorage.setItem('usuarioId', data.usuario.id);
+        // Usamos ?. para evitar caídas si data.usuario no viene definido
+        if (data.usuario?.id) {
+          localStorage.setItem('usuarioId', data.usuario.id);
+        }
         alert('Sesión iniciada correctamente');
         navigate('/me');
       } else {

@@ -47,43 +47,41 @@ const registerUser = async (req, res) => {
 }
 
 // Autenticación / Login
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Buscar el usuario por email
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+      return res.status(400).json({ mensaje: 'Credenciales incorrectas' });
     }
 
-    // Comparar la contraseña ingresada con la hasheada
-    const match = await bcrypt.compare(password, user.password_hash);
-    if (!match) {
-      return res.status(401).json({ error: 'Contraseña incorrecta' });
+    const esValida = await bcrypt.compare(password, user.password_hash);
+    if (!esValida) {
+      return res.status(400).json({ mensaje: 'Credenciales incorrectas' });
     }
 
-    // Generar el Token (usa una clave secreta segura en tus variables de entorno)
-    const token = jwt.sign(
-      { id: user.id, email: user.email },
-      process.env.JWT_SECRET || 'secreto_super_seguro',
-      { expiresIn: '2h' }
-    );
+// Ejemplo al generar el token en el login:
+const token = jwt.sign(
+  { id: user.id, email: user.email }, 
+  process.env.JWT_SECRET || 'tu_clave_secreta', 
+  { expiresIn: '1d' }
+);
 
-    // Retornar el token al cliente
-    return res.json({
-      message: 'Inicio de sesión exitoso',
+    // Devolver el token y los datos del usuario
+    res.json({
+      mensaje: 'Login exitoso',
       token,
-      user: {
+      usuario: {
         id: user.id,
         nombre: user.nombre,
         email: user.email
       }
     });
-
   } catch (error) {
-    console.error('Error en login:', error);
-    return res.status(500).json({ error: 'Error al iniciar sesión' });
+    console.error('Error en el login:', error);
+    res.status(500).json({ mensaje: 'Error interno del servidor' });
   }
 };
 

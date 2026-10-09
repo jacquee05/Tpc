@@ -22,22 +22,35 @@ const getReporteById = async (req, res) => {
 
 // Crear un nuevo reporte
 const createReporte = async (req, res) => {
-    const { titulo, descripcion, prioridad, fecha_creacion, categoria_id, direccion_id } = req.body
-    const usuario_id = req.user.id // Obtenido del token de sesión
+    try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ mensaje: 'No autorizado: Token no proporcionado o inválido' });
+        }
 
-    const reporte = await Reporte.create({
-        titulo,
-        descripcion,
-        prioridad,
-        estado: 'pendiente',
-        fecha_creacion,
-        categoria_id,
-        direccion_id,
-        usuario_id 
-    })
+        const { titulo, descripcion, prioridad, categoria_id, direccion_id } = req.body;
 
-    res.json(reporte)
-}
+        const reporte = await Reporte.create({
+            titulo,
+            descripcion,
+            prioridad: prioridad || 'baja',
+            estado: 'pendiente',
+            fecha_creacion: new Date(),
+            categoria_id: categoria_id ? parseInt(categoria_id) : null,
+            direccion_id: direccion_id ? parseInt(direccion_id) : null,
+            usuario_id: req.user.id
+        });
+
+        return res.status(201).json(reporte);
+
+    } catch (error) {
+        console.error('Error detallado al crear el reporte:', error);
+        return res.status(500).json({ 
+            mensaje: 'Error interno del servidor al crear el reporte',
+            error: error.message 
+        });
+    }
+};
+
 
 // Actualizar el estado de un reporte
 const updateEstadoReporte = async (req, res) => {

@@ -1,39 +1,25 @@
+// api/middlewares/auth.js
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
 
-const SECRET = 'misecreto'
+const isAuth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-//este es el middleware de JWT
-const isAuth = (req, res, next) => {        
-    const token = req.headers['authorization']
-    jwt.verify(token, SECRET, async (err, decoded) => {        
-        if (err) return res.status(401).json({ message: 'Error al acceder' })
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ mensaje: 'No autorizado: Token no proporcionado' });
+  }
 
-        const user = await User.findByPk(decoded.id)
+  const token = authHeader.split(' ')[1];
 
-        if (!user) return res.json({ message: 'Usuario no encontrado' })
-
-        req.user = {
-            id: user.id,
-            email: user.email
-        }
-        next()
-    });
-}
-
-const disableAccount = async (req, res) => {
-    try {
-        const userId = req.user.id;
-        // User.destroy() con paranoid:true actualiza 'deletedAt' en lugar de borrar la fila
-        await User.destroy({ where: { id: userId } }); 
-        res.json({ message: 'Perfil deshabilitado correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'tu_clave_secreta');
+    
+    // Inyectamos el usuario decodificado en req.user
+    req.user = decoded; // Asegúrate de que el payload del JWT contenga { id: user.id }
+    
+    next(); // Continuamos solo si el token es válido
+  } catch (error) {
+    return res.status(401).json({ mensaje: 'No autorizado: Token inválido o expirado' });
+  }
 };
 
-
-module.exports = {
-    isAuth,
-    disableAccount
-}
+module.exports = { isAuth }
