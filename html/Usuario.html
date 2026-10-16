@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario</title>
+    <link rel="stylesheet" href="../css/Usuario.css">
+</head>
+
+<body>
+    <div class="contenedor">
+
+        <aside>
+            <h2>Perfil del Usuario</h2>
+            <section class="foto">
+                <p>foto usuario</p>
+            </section>
+
+            <section cass="informacion">
+                <p>informacion de usuario</p>
+            </section>
+
+            <section class="configuracion">
+                <p>seccion de configuracion</p>
+                <form class="iconoConfiguracion" id="btnConfiguracion">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPD8LUXMNTzeBehvD3hRD-b1pIuYxqUTjowavWvFTRVQfNi-AbIS734xmR&s=10"
+                        alt="Icono">
+                    <span onclick="document.getElementById('modalConfiguracion').showModal()">Configuracion</span>
+                    <span>.</span>
+
+                    <dialog id="modalConfiguracion" class="ventana-emergente">
+                        <div class="contenido-modal">
+                            <h3 class="tituloConfiguracion">Configuración del Perfil</h3>
+                            <p class="opciones">
+                            <h3>Permisos de Datos</h3>
+                            <h7>(Camara - Microfono - Ubicacion)</h7>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                            <h3>Permisos de Notificaciones</h3>
+                            <h7>(Alertas - Nuevos avisos - Reportes)</h7>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                            <div class="contenedor-opciones">
+                                <legend class="titulo-opciones" data-key="elige_idioma">Selecciona un idioma</legend>
+
+                                <!-- Opción 1: Español (Predeterminado) -->
+                                <label for="espanol" class="opcion-item">
+                                    Español
+                                    <input checked type="radio" name="idioma" value="es" class="radio-input"
+                                        id="espanol" />
+                                </label>
+
+                                <!-- Opción 2: Inglés -->
+                                <label for="ingles" class="opcion-item">
+                                    Inglés
+                                    <input type="radio" name="idioma" value="en" class="radio-input" id="ingles" />
+                                </label>
+
+                                <!-- Opción 3: Francés -->
+                                <label for="frances" class="opcion-item">
+                                    Francés
+                                    <input type="radio" name="idioma" value="fr" class="radio-input" id="frances" />
+                                </label>
+                            </div>
+                            </p>
+
+                            <!-- Botón para cerrar la ventana -->
+                            <button type="button" onclick="document.getElementById('modalConfiguracion').close()">
+                                Cerrar
+                            </button>
+                        </div>
+                    </dialog>
+                </form>
+            </section>
+            <p>texto de la barra</p>
+
+            <section class="ft">
+                <p>¿Quieres volver al inicio?</p>
+                <a href="../index.html" class="btn-volver">
+                    Presiona aquí para volver
+                </a>
+            </section>
+
+        </aside>
+        <main class="contenido">
+            <div class="banner">
+                <img id="ImagenBanner"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTejfis50stycRO3kMaz4CD-fp6S9rJ064mEZ3qEu4tx9eTsiRwtxK3sWVN&s=10"
+                    alt="Banner">
+            </div>
+            <section class="reportes">
+                <table class="tabla">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Fecha</th>
+                            <th>Ubicacion</th>
+                            <th>Categoria</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            Reportes Avistados Ultimamente
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="historial">
+                <tr>
+                    Historial De Reportes
+                </tr>
+            </section>
+
+        </main>
+    </div>
+    <script src="../js/Usuario.js"></script>
+</body>
+
+</html>

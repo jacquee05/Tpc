@@ -1,0 +1,422 @@
+body{
+    background-color: #121b1f;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+.contenedor {
+    width: 100%;
+    display: flex;
+} 
+
+aside {
+    display: flex;
+    background-color: #1e2732;
+    flex-direction: column;
+    width: 20%;
+    height: 580px;
+    text-align: center;
+}
+aside{
+    text-align: center;
+}
+aside h2{
+    margin-top: 10px;
+}
+aside form{
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 20px;
+
+}
+aside form input[type="submit"]{
+    background-color: cornflowerblue;
+    width: 165px;
+    border-radius: 10px;
+    font-family:'Times New Roman', Times, serif;
+    padding: 8px 16px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    color: white;
+}
+
+/*====================*/
+/*Seccion del boton*/
+/*====================*/
+/* Estilos aplicados a la sección/formulario */
+.configuracion .iconoConfiguracion {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre la foto y el texto */
+    cursor: pointer;
+}
+
+/* Estilos aplicados directamente a la imagen interna */
+.configuracion .iconoConfiguracion img {
+    width: 40px;  /* Controlas el tamaño de la foto directamente */
+    height: 40px;
+    object-fit: cover;
+    border-radius: 100%; /* Opcional: redondea la foto dentro del botón */
+}
+
+/* Hacer que el span reaccione como un botón interactivo */
+.iconoConfiguracion span {
+    cursor: pointer;
+}
+
+/* Estilos de la ventana emergente */
+.ventana-emergente {
+    border: none;
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    background-color: #1e2732;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    max-width: 300px;
+    width: 90%;
+}
+
+/* Fondo oscuro semitransparente detrás del emergente */
+.ventana-emergente::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.tituloConfiguracion{
+    background-color: #00b4d8;
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}  
+
+/* Estilo del botón de cerrar */
+.ventana-emergente button {
+    margin-top: none;
+    padding: 8px 16px;
+    border: none;
+    background-color: #00b4d8;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* From Uiverse.io by mrhyddenn */ 
+/* The switch - the box around the slider */
+.opciones {
+    display: flex;
+    align-items: flex-end;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Reseteo general */
+* {
+    box-sizing: border-box;
+}
+
+/* Contenedor principal */
+.contenedor-opciones {
+    width: 260px;
+    padding: 20px 16px;
+    background-color: #121b1f;
+    margin-top: 10px;
+    text-align: center;
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 6px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.09);
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Título */
+.titulo-opciones {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    user-select: none;
+}
+
+/* Filas / Opciones principales */
+.opcion-item {
+    font-weight: 500;
+    height: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 12px;
+    border-radius: 8px;
+    user-select: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.opcion-item:hover {
+    background-color: #f4f4f5; /* Zinc-100 */
+}
+
+/* Estado SELECCIONADO mediante la pseudo-clase :has */
+.opcion-item:has(:checked) {
+    color: #3b82f6;            /* Blue-500 */
+    background-color: #eff6ff;  /* Blue-50 */
+    outline: 1px solid #93c5fd;  /* Ring Blue-300 */
+}
+
+/* Iconos SVG */
+.icono-wrapper {
+    width: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.icono-wrapper.fill-blue {
+    fill: #3b82f6;
+}
+
+/* Botón de radio posicionado a la derecha */
+.radio-input {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 12px;
+    accent-color: #3b82f6;     /* Color azul nativo para el radio button */
+    cursor: pointer;
+}
+
+.switch {
+ font-size: 17px;
+ position: relative;
+ display: inline-block;
+ width: 62px;
+ height: 35px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+ opacity: 1;
+ width: 0;
+ height: 0;
+}
+
+/* The slider */
+.slider {
+ position: absolute;
+ cursor: pointer;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0px;
+ background: #fff;
+ transition: .4s;
+ border-radius: 30px;
+ border: 1px solid #ccc;
+}
+
+.slider:before {
+ position: absolute;
+ content: "";
+ height: 1.9em;
+ width: 1.9em;
+ border-radius: 16px;
+ left: 1.2px;
+ top: 0;
+ bottom: 0;
+ background-color: white;
+ box-shadow: 0 2px 5px #999999;
+ transition: .4s;
+}
+
+input:checked + .slider {
+ background-color: #ffb703;
+ border: 1px solid transparent;
+}
+
+input:checked + .slider:before {
+ transform: translateX(1.5em);
+}
+
+/*==========================================*/
+/*==========================================*/
+/* Estilo para el apartado sin sesión */
+.sin-sesion {
+    padding: 12px;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.sin-sesion p {
+    margin: 0;
+    color: #856404;
+    font-size: 0.9rem;
+}
+
+.sin-sesion a {
+    color: #533f03;
+    font-weight: bold;
+    text-decoration: underline;
+}
+/*==========================================*/
+/*==========================================*/
+
+/*====================*/
+/*Seccion del Banner */
+/*====================*/
+main img[id="ImagenBanner"] {
+    height: 150px;
+    width: 100%; 
+    object-fit: cover;
+    background-color: #1e2732;
+}
+.contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+    width: 80%;
+}
+.banner {
+    width: 100%;
+    background-color: #1e2732;
+}
+.reportes{
+    height: 100%;
+    .tabla{
+        align-items: center;
+    }
+    
+}
+/*==========================================*/
+/* Contenedor principal en forma de cuadro */
+/*==========================================*/
+.reportes {
+    width: 90%;
+    margin: 14px auto;
+    padding: 20px;
+    background-color: #1e2732;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tr {
+    margin-top: 0;
+    color: #333;
+    text-align: center;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+/*=====================*/
+/* Estilos de la tabla */
+/*=====================*/
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.tabla td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    color: #555;
+    height: 100px;
+}
+
+/*=================================================*/
+/* Estilos de los encabezados en la parte inferior */
+/*=================================================*/
+.tabla tfoot th {
+    padding: 12px 15px;
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.tabla tfoot tr th:first-child {
+    border-bottom-left-radius: 8px;
+}
+
+.tabla tfoot tr th:last-child {
+    border-bottom-right-radius: 8px;
+}
+
+.tabla tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/*=======================================*/
+/* Seccion del recuadro para el historial*/
+/*=======================================*/
+.historial{
+    height: 100%;
+    .tabla{
+        align-items: center;
+    }
+    
+}
+
+.historial {
+    width: 100%;
+    width: 94%;           /* Mismo ancho máximo que .reportes */
+    margin: 14px auto;
+    padding: 20px;
+    background-color: #1e2732;
+    border-radius: 12px;  /* Borde sutil exterior */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    overflow: hidden;           /* Mantiene las imágenes dentro de la forma */
+}
+
+/*===============================*/
+/* Seccion del regreso al inicio */
+/*===============================*/
+/* Clase .ft */
+.ft {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.ft p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Botón/Enlace de retorno */
+.ft .btn-volver {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00b4d8;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Efecto hover interactivo */
+.ft .btn-volver:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
