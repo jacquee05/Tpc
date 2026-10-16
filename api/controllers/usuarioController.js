@@ -47,7 +47,6 @@ const registerUser = async (req, res) => {
 }
 
 // Autenticación / Login
-
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -95,28 +94,39 @@ const me = async (req, res) => {
 }
 
 // Editar foto de perfil o datos personales
-const editMe = async (req, res) => {
-    const { id } = req.user
-    const { imagen } = req.body
-    
-    const user = await User.findByPk(id)
-    if (!user) return res.status(400).json({ message: 'Usuario No encontrado' })
+const editMe = async (req, res, next) => {
+  try {
+    // req.user.id viene del middleware de autenticación (isAuth)
+    const userId = req.user.id; 
 
-    user.imagen = imagen
-    await user.save()
+    // Extraemos la imagen_url del cuerpo de la petición
+    const { imagen_url } = req.body; 
 
-    res.status(200).json(user)
-}
+    console.log("Datos recibidos en el backend - imagen_url:", imagen_url); // <-- ¡Mira qué sale en la terminal!
+
+    // Buscamos y actualizamos el usuario en la base de datos
+    const usuario = await User.findByPk(userId);
+    if (!usuario) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    }
+
+    // Actualizamos el campo correspondiente
+    usuario.imagen_url = imagen_url;
+    await usuario.save();
+
+    return res.json({ mensaje: 'Perfil actualizado con éxito', usuario });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Asignar o agregar un rol al usuario
 const assignRole = async (req, res) => {
-    const { id } = req.params // ID del usuario a modificar
+    const { id } = req.params 
     const { rolId } = req.body
 
     const user = await User.findByPk(id)
     if (!user) return res.status(404).json({ message: 'Usuario no encontrado' })
-
-    // Sequelize genera automáticamente este método al definir relaciones pertenecer/asociar
     await user.addRol(rolId) 
 
     res.status(200).json({ message: 'Rol asignado correctamente' })

@@ -1,53 +1,65 @@
-// src/components/AccountSetting.jsx
 import { useState } from 'react';
 
 export default function AccountSetting() {
-  const [imagen, setImagen] = useState('');
+  const [urlImagen, setUrlImagen] = useState('');
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
+  console.log("Renderizando AccountSetting");
+
+  const handleGuardarCambios = async () => {
+    console.log("1. Se hizo clic en guardar cambios");
+
+    const token = localStorage.getItem('token');
+    console.log("2. Token encontrado:", token);
+
+    if (!token) {
+      alert('No estás autenticado. Por favor inicia sesión de nuevo.');
+      return;
+    }
 
     try {
-      // Revisa si en tus rutas usas PUT o PATCH (debe coincidir con la definición del backend)
+      console.log("3. Intentando hacer fetch al backend...");
       const res = await fetch('http://localhost:3000/api/usuarios/me', {
-        method: 'PUT', 
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          // Si usas autenticación por token, descomenta la siguiente línea:
-          // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ imagen }), // Coincide con const { imagen } = req.body
+        body: JSON.stringify({
+          imagen_url: urlImagen 
+        })
       });
 
+      console.log("4. Respuesta recibida del backend:", res.status);
+
       if (res.ok) {
-        alert('Imagen de perfil actualizada correctamente');
-        setImagen('');
+        alert('Imagen actualizada con éxito');
       } else {
-        alert('Error al actualizar la imagen');
+        const data = await res.json().catch(() => null);
+        alert(data?.mensaje || 'Error al actualizar la imagen');
       }
     } catch (error) {
-      console.error('Error al actualizar:', error);
+      console.error('Error en el fetch:', error);
     }
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div>
       <h2>Configuración de la Cuenta</h2>
-      
-      <form onSubmit={handleUpdate}>
-        <div>
-          <label>URL de la nueva imagen:</label><br />
-          <input 
-            type="text" 
-            value={imagen} 
-            onChange={(e) => setImagen(e.target.value)} 
-            placeholder="https://ejemplo.com/mi-foto.jpg"
-            required
-          />
-        </div>
+      <div>
+        <label>URL de la nueva imagen:</label>
         <br />
-        <button type="submit">Guardar Cambios</button>
-      </form>
+        <input 
+          type="text" 
+          placeholder="https://..." 
+          value={urlImagen} 
+          onChange={(e) => setUrlImagen(e.target.value)} 
+        />
+        <br /><br />
+        {/* Cambiamos el botón para que ejecute la función directamente */}
+        <button type="button" onClick={handleGuardarCambios}>
+          Guardar Cambios
+        </button>
+      </div>
     </div>
   );
 }

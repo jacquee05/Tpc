@@ -27,6 +27,10 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING(255),
     allowNull: false
   },
+  imagen_url: {
+    type: DataTypes.STRING(500),
+    allowNull: true
+  },
   fecha_registro: {
     type: DataTypes.DATE,
     allowNull: false,

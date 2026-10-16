@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 
 // 1. Importar controladores y middleware
 const { getUsers, getUserById, registerUser, login, me, editMe, assignRole } = require('./controllers/usuarioController')
@@ -20,9 +21,9 @@ require('./models/ArchivoReporte')
 require('./models/Reporte')
 
 const server = express()
-
 // 3. Middlewares generales
 server.use(express.json())
+server.use(cors());
 
 // Configuración de CORS
 server.use((req, res, next) => {
@@ -36,10 +37,6 @@ server.use((req, res, next) => {
   }
   next()
 })
-
-console.log('isAuth:', isAuth);
-console.log('getUsers:', getUsers);
-console.log('getReportes:', getReportes);
 
 // 4. Rutas
 // Rutas de Usuarios
@@ -76,7 +73,7 @@ async function iniciarServidor() {
 
     await Direccion.findOrCreate({
       where: { id: 1 },
-      defaults: { calle: 'Calle Principal', numero: 123 }
+      defaults: { direccion_texto: 'Sin direccion', latitud: 0, longitud: 0 }
     });
 
     server.listen(3000, () => {
