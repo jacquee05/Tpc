@@ -1,5 +1,4 @@
-
-const PRESTACIONES_DATA = {
+export const PRESTACIONES_DATA = {
 
   'calles-fachadas-veredas': {
     tag: 'Calle, fachadas y veredas',
