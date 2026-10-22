@@ -1,10 +1,29 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { PRESTACIONES_DATA } from '../data/prestaciones'
+import NuevoReporteForm from '../components/NuevoReporte'
 
-export default function Prestacion() {
+export default function Prestacion({ onLoginClick }) {
   const { id } = useParams()
   const data = PRESTACIONES_DATA[id]
+  const [mostrarForm, setMostrarForm] = useState(false)
+  const [necesitaSesion, setNecesitaSesion] = useState(false)
+
+  // Al cambiar de prestación se reinicia el estado del formulario
+  useEffect(() => {
+    setMostrarForm(false)
+    setNecesitaSesion(false)
+  }, [id])
+
+  const iniciarSolicitud = () => {
+    if (localStorage.getItem('token')) {
+      setNecesitaSesion(false)
+      setMostrarForm(true)
+    } else {
+      setMostrarForm(false)
+      setNecesitaSesion(true)
+    }
+  }
 
   useEffect(() => {
     document.title = data ? `${data.titulo} — ECO BA` : 'Prestación — ECO BA'
@@ -55,7 +74,22 @@ export default function Prestacion() {
               </div>
             </div>
 
-            <a className="btn-primary" href="#">Iniciar esta solicitud</a>
+            <button type="button" className="btn-primary" onClick={iniciarSolicitud}>
+              Iniciar esta solicitud
+            </button>
+
+            {necesitaSesion && (
+              <div className="login-aviso" role="alert" style={{ marginTop: 20, padding: 16, border: '1px solid #f0c36d', background: '#fff8e1', borderRadius: 8, maxWidth: 520 }}>
+                <p style={{ margin: '0 0 12px' }}>
+                  Tenés que iniciar sesión para completar el formulario de esta solicitud.
+                </p>
+                <button type="button" className="btn-ghost" onClick={onLoginClick}>
+                  Ingresar con miBA
+                </button>
+              </div>
+            )}
+
+            {mostrarForm && <NuevoReporteForm categoriaNombre={data.titulo} />}
           </>
         )}
       </div>

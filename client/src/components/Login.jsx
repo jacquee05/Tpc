@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -35,6 +36,7 @@ export default function Login() {
   return (
     <div>
       <h2>Iniciar Sesión</h2>
+      {state?.mensaje && <p role="status" style={{ color: '#2e7d32' }}>{state.mensaje}</p>}
       <form onSubmit={handleLogin}>
         <div>
           <label>Email:</label>

@@ -31,7 +31,6 @@ export default function Profile() {
 
   return (
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
-      <h2>Mi Perfil</h2>
       
       <img 
         src={user.imagen_url || 'https://via.placeholder.com/150'} 

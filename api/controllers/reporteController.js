@@ -1,15 +1,15 @@
 const Reporte = require("../models/Reporte")
 const ArchivoReporte = require("../models/ArchivoReporte")
 
-// Obtener todos los reportes (con posibilidad de filtrar por estado o prioridad)
+// Obtener los reportes del usuario autenticado (con posibilidad de filtrar por estado o prioridad)
 const getReportes = async (req, res) => {
     const { estado, prioridad } = req.query
-    const where = {}
+    const where = { usuario_id: req.user.id }
     
     if (estado) where.estado = estado
     if (prioridad) where.prioridad = prioridad
 
-    const reportes = await Reporte.findAll({ where })
+    const reportes = await Reporte.findAll({ where, order: [['fecha_creacion', 'DESC']] })
     res.json(reportes)
 }
 

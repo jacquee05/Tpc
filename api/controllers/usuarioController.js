@@ -120,6 +120,42 @@ const editMe = async (req, res, next) => {
   }
 };
 
+// Cambiar la contraseña del usuario autenticado
+const changePassword = async (req, res) => {
+  try {
+    const { passwordActual, passwordNueva, passwordConfirmacion } = req.body
+
+    if (!passwordActual || !passwordNueva || !passwordConfirmacion) {
+      return res.status(400).json({ mensaje: 'Completá todos los campos' })
+    }
+    if (passwordNueva !== passwordConfirmacion) {
+      return res.status(400).json({ mensaje: 'La nueva contraseña y su confirmación no coinciden' })
+    }
+    if (passwordNueva.length < 6) {
+      return res.status(400).json({ mensaje: 'La nueva contraseña debe tener al menos 6 caracteres' })
+    }
+
+    const user = await User.findByPk(req.user.id)
+    if (!user) return res.status(404).json({ mensaje: 'Usuario no encontrado' })
+
+    const esValida = await bcrypt.compare(passwordActual, user.password_hash)
+    if (!esValida) {
+      return res.status(400).json({ mensaje: 'La contraseña actual es incorrecta' })
+    }
+    if (passwordActual === passwordNueva) {
+      return res.status(400).json({ mensaje: 'La nueva contraseña debe ser distinta de la actual' })
+    }
+
+    user.password_hash = await bcrypt.hash(passwordNueva, 10)
+    await user.save()
+
+    return res.json({ mensaje: 'Contraseña actualizada correctamente' })
+  } catch (error) {
+    console.error('Error al cambiar la contraseña:', error)
+    return res.status(500).json({ mensaje: 'Error interno del servidor' })
+  }
+}
+
 // Asignar o agregar un rol al usuario
 const assignRole = async (req, res) => {
     const { id } = req.params 
@@ -139,5 +175,6 @@ module.exports = {
     login,
     me,
     editMe,
+    changePassword,
     assignRole
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import CambiarPassword from './CambiarPassword';
 
-export default function AccountSetting() {
+export default function AccountSetting({ onPasswordChanged }) {
   const [urlImagen, setUrlImagen] = useState('');
 
   console.log("Renderizando AccountSetting");
@@ -60,6 +61,8 @@ export default function AccountSetting() {
           Guardar Cambios
         </button>
       </div>
+
+      <CambiarPassword onSuccess={onPasswordChanged} />
     </div>
   );
 }

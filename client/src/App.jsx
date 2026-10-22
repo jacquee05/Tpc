@@ -16,24 +16,37 @@ import AccountSetting from './components/AccountSetting'
 
 export default function App() {
   const [modalAbierto, setModalAbierto] = useState(false)
+  const [modalModo, setModalModo] = useState('register')
+  const [modalMensaje, setModalMensaje] = useState('')
+
+  const abrirModal = (modo = 'register', mensaje = '') => {
+    setModalModo(modo)
+    setModalMensaje(mensaje)
+    setModalAbierto(true)
+  }
 
   return (
     <Router>
-      <Header onLoginClick={() => setModalAbierto(true)} />
+      <Header onLoginClick={() => abrirModal()} />
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/prestacion/:id" element={<Prestacion />} />
+        <Route path="/prestacion/:id" element={<Prestacion onLoginClick={() => abrirModal()} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reportes" element={<Posts />} />
         <Route path="/me" element={<Me />} />
-        <Route path="/settings" element={<AccountSetting />} />
+        <Route path="/settings" element={<AccountSetting onPasswordChanged={() => abrirModal('login', 'Contraseña actualizada. Iniciá sesión con tu nueva contraseña.')} />} />
       </Routes>
 
       <Footer />
 
-      <MibaModal open={modalAbierto} onClose={() => setModalAbierto(false)} />
+      <MibaModal
+        open={modalAbierto}
+        onClose={() => setModalAbierto(false)}
+        modoInicial={modalModo}
+        mensajeInicial={modalMensaje}
+      />
     </Router>
   )
 }

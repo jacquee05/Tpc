@@ -2,9 +2,10 @@ const express = require('express')
 const cors = require('cors')
 
 // 1. Importar controladores y middleware
-const { getUsers, getUserById, registerUser, login, me, editMe, assignRole } = require('./controllers/usuarioController')
+const { getUsers, getUserById, registerUser, login, me, editMe, changePassword, assignRole } = require('./controllers/usuarioController')
 const { isAuth } = require('./middlewares/auth');
 const { createReporte, getReportes } = require('./controllers/reporteController')
+const { getCategorias } = require('./controllers/categoriaReporteController')
 const CategoriaReporte = require('./models/CategoriaReporte');
 const Direccion = require('./models/Direccion');
 
@@ -47,7 +48,11 @@ server.post('/api/usuarios/login', login)
 server.get('/api/usuarios/me', isAuth, me) 
 server.patch('/api/usuarios/me', isAuth, editMe) 
 server.put('/api/usuarios/me', isAuth, editMe) 
+server.put('/api/usuarios/me/password', isAuth, changePassword)
 server.post('/api/usuarios/assignRole', assignRole)
+
+// Categorías (las usa el formulario de reportes)
+server.get('/api/categorias', getCategorias)
 
 // Rutas de Reportes
 server.get('/api/reportes', isAuth, getReportes)
@@ -71,10 +76,31 @@ async function iniciarServidor() {
       defaults: { nombre: 'General' }
     });
 
+    // Los registros iniciales se crean con id fijo: hay que adelantar el contador automático
+    // para que los próximos inserts no choquen con esos ids.
+    await sequelize.query(`SELECT setval(pg_get_serial_sequence('categorias_reporte', 'id'), (SELECT MAX(id) FROM categorias_reporte))`);
+
+    // Una categoría por cada prestación de la portada (mismos nombres que en client/src/data/prestaciones.js)
+    const nombresCategorias = [
+      'Calles, fachadas y veredas',
+      'Arbolado y espacios verdes',
+      'Limpieza y residuos',
+      'Alumbrado público',
+      'Obras y catastro',
+      'Comercios y actividades',
+      'Seguridad',
+      'Tránsito y transporte'
+    ];
+    for (const nombre of nombresCategorias) {
+      await CategoriaReporte.findOrCreate({ where: { nombre } });
+    }
+
     await Direccion.findOrCreate({
       where: { id: 1 },
       defaults: { direccion_texto: 'Sin direccion', latitud: 0, longitud: 0 }
     });
+
+    await sequelize.query(`SELECT setval(pg_get_serial_sequence('direcciones', 'id'), (SELECT MAX(id) FROM direcciones))`);
 
     server.listen(3000, () => {
       console.log('El server esta corriendo en el puerto 3000');

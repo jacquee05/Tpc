@@ -53,7 +53,7 @@ export default function Home() {
             </p>
 
             <div className="hero-actions">
-              <button className="btn-primary" onClick={() => console.log('Iniciar una solicitud → conectar con el flujo real')}>
+              <button className="btn-primary" onClick={irAPrestaciones}>
                 Iniciar una solicitud
               </button>
               <button className="btn-ghost" onClick={irAPrestaciones}>

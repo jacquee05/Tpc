@@ -9,7 +9,7 @@ export default function Header({ onLoginClick }) {
         </Link>
 
         <nav className="navlinks">
-          <Link to="/#prestaciones">Prestaciones</Link>
+          <Link to="/#prestaciones">Prestaciones</Link>   
           <Link to="/reportes">Mis solicitudes</Link>
           <a href="#">Mapa de la Ciudad</a>
           <Link to="/me">Perfil</Link>
