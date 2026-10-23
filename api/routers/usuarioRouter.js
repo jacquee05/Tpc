@@ -6,5 +6,6 @@ router.post('/registro', usuarioController.registerUser);
 router.post('/login', usuarioController.login);
 router.get('/:id', usuarioController.me);
 router.put('/me', usuarioController.editMe)
+router.delete('/me', isAuth, usuarioController.eliminarCuenta)
 
 module.exports = router;
