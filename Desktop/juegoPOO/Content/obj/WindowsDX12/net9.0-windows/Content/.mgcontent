@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>WindowsDX12</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Fondos/Arena.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Fuentes/FuenteTexto.spritefont</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Fuentes/FuenteTextoPequeña.spritefont</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/FalseLight/Agacharse.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/FalseLight/Ataque.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/FalseLight/Caminar.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/FalseLight/Danio.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/FalseLight/Defensa.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/FalseLight/explosion.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/FalseLight/Idle.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/FalseLight/Salto.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/MonsterX/XAgacharse.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/MonsterX/XAtaque.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/MonsterX/XCaminar.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/MonsterX/XDanio.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/MonsterX/XDefensa.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/MonsterX/XIdle.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/MonsterX/XPatada.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/MonsterX/XSalto.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/Seleccion/Cr7icon.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/Seleccion/Falselighticon.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/Seleccion/Gokuicon.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/Seleccion/Jefficon.png</File>
+    <File>C:/Users/hyun1/Desktop/juegopoo/Content/Personajes/Seleccion/MonsterXicon.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File>Personajes/FalseLight/Agacharse</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File>Personajes/FalseLight/Explosion</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File>Personajes/MonsterX/XAgacharse</File>
+    <File>Personajes/MonsterX/XAtaque</File>
+    <File xsi:nil="true" />
+    <File>Personajes/MonsterX/XDanio</File>
+    <File>Personajes/MonsterX/XDefensa</File>
+    <File xsi:nil="true" />
+    <File>Personajes/MonsterX/XPatada</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File>Personajes/Seleccion/Falselighticon</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File>Personajes/Seleccion/MonsterXicon</File>
+  </DestFiles>
+</SourceFileCollection>
