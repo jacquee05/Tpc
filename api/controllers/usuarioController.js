@@ -1,4 +1,6 @@
 const User = require("../models/User")
+const Reporte = require("../models/Reporte")
+const ArchivoReporte = require("../models/ArchivoReporte")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -156,6 +158,47 @@ const changePassword = async (req, res) => {
   }
 }
 
+// Eliminar la cuenta del usuario autenticado
+const eliminarCuenta = async (req, res) => {
+  try {
+    // El id sale del token (middleware isAuth), así nadie puede borrar cuentas ajenas
+    const userId = req.user.id;
+
+    const usuario = await User.findByPk(userId);
+    if (!usuario) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    }
+
+    // 1. Borrar los archivos adjuntos de los reportes del usuario
+    const reportes = await Reporte.findAll({
+      where: { usuario_id: userId },
+      attributes: ['id']
+    });
+    const idsReportes = reportes.map((r) => r.id);
+
+    if (idsReportes.length > 0) {
+      await ArchivoReporte.destroy({ where: { reporte_id: idsReportes } });
+    }
+
+    // 2. Borrar los reportes del usuario
+    await Reporte.destroy({ where: { usuario_id: userId } });
+
+    // 3. Quitar los roles asignados (tabla intermedia), si existe esa asociación
+    if (typeof usuario.setRols === 'function') {
+      await usuario.setRols([]);
+    }
+
+    // 4. Borrar el usuario
+    await usuario.destroy();
+
+    return res.json({ mensaje: 'Cuenta eliminada exitosamente' });
+  } 
+  catch (error) {
+    console.error('Error al eliminar la cuenta:', error);
+    return res.status(500).json({ mensaje: 'Error al eliminar la cuenta', error: error.message });
+  }
+};
+
 // Asignar o agregar un rol al usuario
 const assignRole = async (req, res) => {
     const { id } = req.params 
@@ -175,6 +218,7 @@ module.exports = {
     login,
     me,
     editMe,
+    eliminarCuenta,
     changePassword,
     assignRole
 }
