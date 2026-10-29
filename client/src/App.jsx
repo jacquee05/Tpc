@@ -7,7 +7,8 @@ import MibaModal from './components/MibaModal'
 
 import Home from './pages/Home'
 import Prestacion from './pages/Prestacion'
-
+import Usuarios from './pages/Usuarios'
+import UsuarioDetalle from './pages/UsuarioDetalle'
 import Login from './components/Login'
 import Register from './components/Register'
 import Me from './components/Me'
@@ -37,6 +38,8 @@ export default function App() {
         <Route path="/reportes" element={<Posts />} />
         <Route path="/me" element={<Me />} />
         <Route path="/settings" element={<AccountSetting onPasswordChanged={() => abrirModal('login', 'Contraseña actualizada. Iniciá sesión con tu nueva contraseña.')} />} />
+        <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/usuarios/:id" element={<UsuarioDetalle />} />  
       </Routes>
 
       <Footer />

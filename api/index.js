@@ -6,6 +6,8 @@ const { getUsers, getUserById, registerUser, login, me, editMe, changePassword, 
 const { isAuth } = require('./middlewares/auth');
 const { createReporte, getReportes } = require('./controllers/reporteController')
 const { getCategorias } = require('./controllers/categoriaReporteController')
+const { getReporteById, actualizarReporte, eliminarReporte } = require('./controllers/reporteController')
+const { getReportesDeUsuario, updateUser, deleteUser } = require('./controllers/adminController')
 const CategoriaReporte = require('./models/CategoriaReporte');
 const Direccion = require('./models/Direccion');
 
@@ -57,6 +59,14 @@ server.get('/api/categorias', getCategorias)
 // Rutas de Reportes
 server.get('/api/reportes', isAuth, getReportes)
 server.post('/api/reportes', isAuth, createReporte)
+// CRUD de usuarios y reportes
+// TODO(roles): cuando exista el chequeo de rol, va acá junto a isAuth (ej: isAuth, isAdmin)
+server.put('/api/usuarios/users/:id', isAuth, updateUser)
+server.delete('/api/usuarios/users/:id', isAuth, deleteUser)
+server.get('/api/usuarios/users/:id/reportes', isAuth, getReportesDeUsuario)
+server.get('/api/reportes/:id', isAuth, getReporteById)
+server.put('/api/reportes/:id', isAuth, actualizarReporte)
+server.delete('/api/reportes/:id', isAuth, eliminarReporte)
 
 // 5. Middleware global de manejo de errores
 server.use((err, req, res, next) => {
