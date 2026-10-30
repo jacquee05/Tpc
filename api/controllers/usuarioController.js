@@ -156,7 +156,7 @@ const changePassword = async (req, res) => {
   }
 }
 
-// Eliminación lógica de la cuenta autenticada: conserva el usuario y sus reportes.
+// Eliminar cuenta
 const eliminarCuenta = async (req, res) => {
   try {
     const { usuario: usuarioIngresado, password } = req.body;
