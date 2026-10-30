@@ -1,5 +1,6 @@
 const Reporte = require("../models/Reporte")
 const ArchivoReporte = require("../models/ArchivoReporte")
+const Direccion = require("../models/Direccion")
 
 // Obtener los reportes del usuario autenticado (con posibilidad de filtrar por estado o prioridad)
 const getReportes = async (req, res) => {
@@ -27,7 +28,26 @@ const createReporte = async (req, res) => {
             return res.status(401).json({ mensaje: 'No autorizado: Token no proporcionado o inválido' });
         }
 
-        const { titulo, descripcion, prioridad, categoria_id, direccion_id } = req.body;
+        const { titulo, descripcion, prioridad, categoria_id, direccion_id, direccion_texto, latitud, longitud } = req.body;
+
+        let direccionIdFinal = direccion_id ? parseInt(direccion_id) : null;
+
+        // Si el usuario seleccionó un punto o escribió una dirección, guardamos
+        // una dirección propia para este reporte en vez de usar la dirección genérica.
+        const tieneCoordenadas = latitud !== undefined && longitud !== undefined
+            && latitud !== '' && longitud !== '';
+        if (tieneCoordenadas || (direccion_texto && direccion_texto.trim())) {
+            const nuevaDireccion = await Direccion.create({
+                direccion_texto: ((direccion_texto && direccion_texto.trim()) || 'Ubicación seleccionada en el mapa').slice(0, 255),
+                latitud: tieneCoordenadas ? Number(latitud) : null,
+                longitud: tieneCoordenadas ? Number(longitud) : null
+            });
+            direccionIdFinal = nuevaDireccion.id;
+        }
+
+        if (!direccionIdFinal) {
+            return res.status(400).json({ mensaje: 'Seleccioná una ubicación en el mapa o escribí una dirección.' });
+        }
 
         const reporte = await Reporte.create({
             titulo,
@@ -36,7 +56,7 @@ const createReporte = async (req, res) => {
             estado: 'pendiente',
             fecha_creacion: new Date(),
             categoria_id: categoria_id ? parseInt(categoria_id) : null,
-            direccion_id: direccion_id ? parseInt(direccion_id) : null,
+            direccion_id: direccionIdFinal,
             usuario_id: req.user.id
         });
 
