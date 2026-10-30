@@ -39,31 +39,8 @@ export default function Profile() {
     navigate('/');
   };
 
-  const handleEliminarCuenta = async () => {
-    const confirmado = window.confirm(
-      '¿Seguro que querés eliminar tu cuenta? Se borrarán también tus reportes y esta acción no se puede deshacer.'
-    );
-    if (!confirmado) return;
-
-    try {
-      const res = await fetch('http://localhost:3000/api/usuarios/me', {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (res.ok) {
-        limpiarSesion();
-        alert('Tu cuenta fue eliminada');
-        navigate('/');
-      } else {
-        const data = await res.json().catch(() => null);
-        alert(data?.mensaje || 'No se pudo eliminar la cuenta');
-      }
-    } catch (error) {
-      console.error('Error al eliminar la cuenta:', error);
-    }
+  const handleEliminarCuenta = () => {
+    navigate('/settings');
   };
 
   if (!user) return <p>Cargando perfil...</p>;
@@ -89,7 +66,7 @@ export default function Profile() {
           onClick={handleEliminarCuenta}
           style={{ backgroundColor: '#c62828', color: '#fff', border: 'none', padding: '6px 12px', cursor: 'pointer' }}
         >
-          Eliminar cuenta
+          Configurar / desactivar cuenta
         </button>
       </div>
     </div>
