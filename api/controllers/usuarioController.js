@@ -1,6 +1,4 @@
 const User = require("../models/User")
-const Reporte = require("../models/Reporte")
-const ArchivoReporte = require("../models/ArchivoReporte")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -8,13 +6,13 @@ const SECRET = 'misecreto'
 
 // Obtener todos los usuarios (excluyendo contraseña)
 const getUsers = async (req, res) => {
-    const users = await User.findAll({ attributes: { exclude: 'password' } })
+    const users = await User.findAll({ where: { eliminado: false }, attributes: { exclude: 'password_hash' } })
     res.json(users)
 }
 
 // Obtener un usuario por ID
 const getUserById = async (req, res) => {
-    const user = await User.findByPk(req.params.id, { attributes: { exclude: 'password' } })
+    const user = await User.findOne({ where: { id: req.params.id, eliminado: false }, attributes: { exclude: 'password_hash' } })
     if (!user) return res.status(404).json({ message: 'Usuario no encontrado' })
     res.json(user)
 }
@@ -53,7 +51,7 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email, eliminado: false } });
     if (!user) {
       return res.status(400).json({ mensaje: 'Credenciales incorrectas' });
     }
@@ -158,44 +156,38 @@ const changePassword = async (req, res) => {
   }
 }
 
-// Eliminar la cuenta del usuario autenticado
+// Eliminación lógica de la cuenta autenticada: conserva el usuario y sus reportes.
 const eliminarCuenta = async (req, res) => {
   try {
-    // El id sale del token (middleware isAuth), así nadie puede borrar cuentas ajenas
-    const userId = req.user.id;
+    const { usuario: usuarioIngresado, password } = req.body;
 
-    const usuario = await User.findByPk(userId);
-    if (!usuario) {
-      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    if (!usuarioIngresado || !password) {
+      return res.status(400).json({ mensaje: 'Ingresá tu usuario y contraseña para confirmar la eliminación.' });
     }
 
-    // 1. Borrar los archivos adjuntos de los reportes del usuario
-    const reportes = await Reporte.findAll({
-      where: { usuario_id: userId },
-      attributes: ['id']
-    });
-    const idsReportes = reportes.map((r) => r.id);
-
-    if (idsReportes.length > 0) {
-      await ArchivoReporte.destroy({ where: { reporte_id: idsReportes } });
+    const usuario = await User.findByPk(req.user.id);
+    if (!usuario || usuario.eliminado) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado o cuenta ya eliminada.' });
     }
 
-    // 2. Borrar los reportes del usuario
-    await Reporte.destroy({ where: { usuario_id: userId } });
+    // Acepta el nombre de usuario o el correo registrado en la cuenta.
+    const identificador = usuarioIngresado.trim().toLowerCase();
+    const coincideUsuario = identificador === String(usuario.nombre).trim().toLowerCase();
+    const coincideEmail = identificador === String(usuario.email).trim().toLowerCase();
+    const coincidePassword = await bcrypt.compare(password, usuario.password_hash);
 
-    // 3. Quitar los roles asignados (tabla intermedia), si existe esa asociación
-    if (typeof usuario.setRols === 'function') {
-      await usuario.setRols([]);
+    if ((!coincideUsuario && !coincideEmail) || !coincidePassword) {
+      return res.status(401).json({ mensaje: 'El usuario o la contraseña son incorrectos. No se eliminó la cuenta.' });
     }
 
-    // 4. Borrar el usuario
-    await usuario.destroy();
+    usuario.eliminado = true;
+    usuario.fecha_eliminacion = new Date();
+    await usuario.save();
 
-    return res.json({ mensaje: 'Cuenta eliminada exitosamente' });
-  } 
-  catch (error) {
+    return res.json({ mensaje: 'Cuenta desactivada exitosamente. Tus datos históricos se conservaron.' });
+  } catch (error) {
     console.error('Error al eliminar la cuenta:', error);
-    return res.status(500).json({ mensaje: 'Error al eliminar la cuenta', error: error.message });
+    return res.status(500).json({ mensaje: 'Error al eliminar la cuenta.' });
   }
 };
 
