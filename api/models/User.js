@@ -31,6 +31,15 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING(500),
     allowNull: true
   },
+  eliminado: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+  fecha_eliminacion: {
+    type: DataTypes.DATE,
+    allowNull: true
+  },
   fecha_registro: {
     type: DataTypes.DATE,
     allowNull: false,
