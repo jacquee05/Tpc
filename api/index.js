@@ -51,6 +51,7 @@ server.get('/api/usuarios/me', isAuth, me)
 server.patch('/api/usuarios/me', isAuth, editMe) 
 server.put('/api/usuarios/me', isAuth, editMe) 
 server.put('/api/usuarios/me/password', isAuth, changePassword)
+server.delete('/api/usuarios/me', isAuth, require('./controllers/usuarioController').eliminarCuenta)
 server.post('/api/usuarios/assignRole', assignRole)
 
 // Categorías (las usa el formulario de reportes)
