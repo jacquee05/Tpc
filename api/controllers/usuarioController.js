@@ -159,7 +159,7 @@ const changePassword = async (req, res) => {
 // Eliminar cuenta
 const eliminarCuenta = async (req, res) => {
   try {
-    const { usuario: usuarioIngresado, password } = req.body;
+    const { usuario: usuarioIngresado, password } = req.body || {};
 
     if (!usuarioIngresado || !password) {
       return res.status(400).json({ mensaje: 'Ingresá tu usuario y contraseña para confirmar la eliminación.' });
