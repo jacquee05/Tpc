@@ -3,6 +3,7 @@ import CambiarPassword from './CambiarPassword';
 
 export default function AccountSetting({ onPasswordChanged }) {
   const [urlImagen, setUrlImagen] = useState('');
+  const [mostrarPrimeraConfirmacion, setMostrarPrimeraConfirmacion] = useState(false);
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [usuarioConfirmacion, setUsuarioConfirmacion] = useState('');
   const [passwordConfirmacion, setPasswordConfirmacion] = useState('');
@@ -10,16 +11,16 @@ export default function AccountSetting({ onPasswordChanged }) {
   const [errorEliminacion, setErrorEliminacion] = useState('');
 
   const abrirConfirmacion = () => {
-    const confirmar = window.confirm(
-      '¿Estás seguro de que querés eliminar tu cuenta? Tus reportes se conservarán, pero ya no podrás ingresar.'
-    );
+    setErrorEliminacion('');
+    setMostrarPrimeraConfirmacion(true);
+  };
 
-    if (confirmar) {
-      setUsuarioConfirmacion('');
-      setPasswordConfirmacion('');
-      setErrorEliminacion('');
-      setMostrarConfirmacion(true);
-    }
+  const continuarConfirmacion = () => {
+    setUsuarioConfirmacion('');
+    setPasswordConfirmacion('');
+    setErrorEliminacion('');
+    setMostrarPrimeraConfirmacion(false);
+    setMostrarConfirmacion(true);
   };
 
   const handleEliminarCuenta = async (e) => {
@@ -117,12 +118,29 @@ export default function AccountSetting({ onPasswordChanged }) {
       <CambiarPassword onSuccess={onPasswordChanged} />
 
       <section className="eliminar-cuenta">
-        <h3>Eliminar cuenta</h3>
-        <p>La cuenta se desactivará sin borrar físicamente tus reportes ni tu historial.</p>
+        <h3>Desactivar cuenta</h3>
+        <p>Tu cuenta dejará de estar disponible, pero tus reportes e historial se conservarán.</p>
         <button type="button" className="btn-ghost" onClick={abrirConfirmacion}>
-          Eliminar mi cuenta
+          Desactivar mi cuenta
         </button>
       </section>
+
+      {mostrarPrimeraConfirmacion && (
+        <div className="confirmar-eliminacion-overlay">
+          <section className="confirmar-eliminacion-modal" role="dialog" aria-modal="true" aria-labelledby="titulo-primera-confirmacion">
+            <h2 id="titulo-primera-confirmacion">¿Querés desactivar tu cuenta?</h2>
+            <p>Esta acción cerrará el acceso a tu cuenta. Tus reportes y datos históricos se conservarán.</p>
+            <div className="confirmar-eliminacion-acciones">
+              <button type="button" className="btn-ghost" onClick={() => setMostrarPrimeraConfirmacion(false)}>
+                Cancelar
+              </button>
+              <button type="button" className="btn-eliminar-cuenta" onClick={continuarConfirmacion}>
+                Continuar
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
 
       {mostrarConfirmacion && (
         <div
@@ -140,7 +158,7 @@ export default function AccountSetting({ onPasswordChanged }) {
             aria-modal="true"
             aria-labelledby="titulo-confirmar-eliminacion"
           >
-            <h2 id="titulo-confirmar-eliminacion">Confirmar eliminación de cuenta</h2>
+            <h2 id="titulo-confirmar-eliminacion">Confirmar desactivación de cuenta</h2>
             <p>
               Por seguridad, ingresá tus credenciales para confirmar que sos el titular
               de la cuenta. Esta acción desactivará tu cuenta.
@@ -187,7 +205,7 @@ export default function AccountSetting({ onPasswordChanged }) {
                   Cancelar
                 </button>
                 <button type="submit" className="btn-eliminar-cuenta" disabled={eliminando}>
-                  {eliminando ? 'Verificando...' : 'Confirmar y eliminar'}
+                  {eliminando ? 'Verificando...' : 'Confirmar y desactivar'}
                 </button>
               </div>
             </form>
